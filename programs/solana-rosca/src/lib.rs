@@ -1,7 +1,7 @@
 
 use anchor_lang::prelude::*;
 
-declare_id!("G9NbuKyKKfyyAYm22rWTcG8SZ7FVM5sdJ19Leymh3nqf"); // Replaced after deployment
+declare_id!("G9NbuKyKKfyyAYm22rWTcG8SZ7FVM5sdJ19Leymh3nqf"); 
 
 #[program]
 pub mod solana_rosca {
@@ -63,7 +63,7 @@ pub mod solana_rosca {
         }
 
         participant.contributions[group.current_week as usize] += amount;
-        // Note: Token transfer logic omitted for simplicity (see enhancements)
+        // Token transfer logic omitted to simplify my code 
         Ok(())
     }
 
@@ -85,11 +85,11 @@ pub mod solana_rosca {
             return Err(ErrorCode::CycleComplete.into());
         }
 
-        // For simplicity, pick the first eligible participant
+        // For simplicity to pick the first eligible participant
         let winner_index = eligible[0];
         group.pot_received[winner_index] = true;
         group.current_week += 1;
-        // Note: Pot transfer logic omitted (see enhancements)
+        // Pot transfer logic omitted
         Ok(())
     }
 }

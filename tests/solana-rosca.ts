@@ -61,5 +61,4 @@ describe("solana-rosca", () => {
     assert.equal(groupAccount.participants.length, 1);
   });
 
-  // Add more tests for contribute and distribute_pot...
 });

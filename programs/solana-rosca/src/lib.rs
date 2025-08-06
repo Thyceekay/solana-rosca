@@ -18,7 +18,25 @@ pub mod solana_rosca {
         Ok(())
     }
 
+/* 
     pub fn join_group(ctx: Context<JoinGroup>) -> Result<()> {
+    msg!("Group account: {:?}", ctx.accounts.group);
+    let group = &mut ctx.accounts.group;
+    let participant = &mut ctx.accounts.participant;
+
+    if group.participants.len() >= group.max_participants as usize {
+        return Err(ErrorCode::GroupFull.into());
+    }
+
+    group.participants.push(*ctx.accounts.group.key); // Error here
+    participant.group = *ctx.accounts.group.key; // Error here
+    participant.user = *ctx.accounts.user.key;
+    participant.contributions = vec![0; group.max_participants as usize];
+    Ok(())
+}
+    */
+    pub fn join_group(ctx: Context<JoinGroup>) -> Result<()> {
+        let group_key = ctx.accounts.group.key();
         let group = &mut ctx.accounts.group;
         let participant = &mut ctx.accounts.participant;
 
@@ -26,8 +44,8 @@ pub mod solana_rosca {
             return Err(ErrorCode::GroupFull.into());
         }
 
-        group.participants.push(*ctx.accounts.user.key);
-        participant.group = *ctx.accounts.group.key;
+        group.participants.push(ctx.accounts.user.key());
+        participant.group = group_key;
         participant.user = *ctx.accounts.user.key;
         participant.contributions = vec![0; group.max_participants as usize];
         Ok(())

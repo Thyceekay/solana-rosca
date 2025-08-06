@@ -7,9 +7,11 @@ import { SolanaRosca } from "../target/types/solana_rosca";
 // import { SolanaRosca } from "../target/types/solana_rosca";
 import assert from "assert";
 
+console.log("Anchor workspace:", Object.keys(anchor.workspace));
+
 describe("solana-rosca", () => {
   const provider = anchor.AnchorProvider.env();
-  anchor.setProvider(provider);
+  anchor.setProvider(provider); 
   const program = anchor.workspace.SolanaRosca as Program<SolanaRosca>;
 
   it("Creates a group", async () => {

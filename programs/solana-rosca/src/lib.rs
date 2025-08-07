@@ -1,10 +1,6 @@
 use anchor_lang::prelude::*;
 
-<<<<<<< HEAD
-declare_id!("GMhTVRALQqen8Mth7U8KJfv3Kjw41zBxRANAjL35MWfY"); // This is the program ID I got after deploying
-=======
-declare_id!("G9NbuKyKKfyyAYm22rWTcG8SZ7FVM5sdJ19Leymh3nqf"); 
->>>>>>> bbca5a0e83c62b663a191c9292a0d4cc25b4d709
+declare_id!("G9NbuKyKKfyyAYm22rWTcG8SZ7FVM5sdJ19Leymh3nqf"); // This is the program ID I got after deploying
 
 #[program]
 pub mod solana_rosca {
@@ -49,11 +45,7 @@ pub mod solana_rosca {
         }
 
         participant.contributions[group.current_week as usize] += amount;
-<<<<<<< HEAD
         // Not doing token stuff yet, will add later
-=======
-        // Token transfer logic omitted to simplify my code 
->>>>>>> bbca5a0e83c62b663a191c9292a0d4cc25b4d709
         Ok(())
     }
 
@@ -75,17 +67,9 @@ pub mod solana_rosca {
             return Err(ErrorCode::CycleComplete.into());
         }
 
-<<<<<<< HEAD
         let winner_index = eligible[0];
         group.pot_received[winner_index] = true;
         group.current_week += 1;
-=======
-        // For simplicity to pick the first eligible participant
-        let winner_index = eligible[0];
-        group.pot_received[winner_index] = true;
-        group.current_week += 1;
-        // Pot transfer logic omitted
->>>>>>> bbca5a0e83c62b663a191c9292a0d4cc25b4d709
         Ok(())
     }
 }

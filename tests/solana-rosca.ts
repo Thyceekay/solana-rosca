@@ -61,7 +61,6 @@ describe("solana-rosca", () => {
     assert.equal(groupAccount.participants.length, 1);
   });
 
-<<<<<<< HEAD
   // Add more tests for contribute and distribute_pot...
 }); 
 
@@ -195,6 +194,3 @@ describe("solana-rosca", () => {
     assert.equal(groupAccount.participants.length, 1);
   });
 });
-=======
-});
->>>>>>> bbca5a0e83c62b663a191c9292a0d4cc25b4d709

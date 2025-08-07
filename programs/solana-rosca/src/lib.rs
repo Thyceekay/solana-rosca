@@ -1,7 +1,6 @@
-
 use anchor_lang::prelude::*;
 
-declare_id!("G9NbuKyKKfyyAYm22rWTcG8SZ7FVM5sdJ19Leymh3nqf"); // Replaced after deployment
+declare_id!("GMhTVRALQqen8Mth7U8KJfv3Kjw41zBxRANAjL35MWfY"); // This is the program ID I got after deploying
 
 #[program]
 pub mod solana_rosca {
@@ -18,23 +17,6 @@ pub mod solana_rosca {
         Ok(())
     }
 
-/* 
-    pub fn join_group(ctx: Context<JoinGroup>) -> Result<()> {
-    msg!("Group account: {:?}", ctx.accounts.group);
-    let group = &mut ctx.accounts.group;
-    let participant = &mut ctx.accounts.participant;
-
-    if group.participants.len() >= group.max_participants as usize {
-        return Err(ErrorCode::GroupFull.into());
-    }
-
-    group.participants.push(*ctx.accounts.group.key); // Error here
-    participant.group = *ctx.accounts.group.key; // Error here
-    participant.user = *ctx.accounts.user.key;
-    participant.contributions = vec![0; group.max_participants as usize];
-    Ok(())
-}
-    */
     pub fn join_group(ctx: Context<JoinGroup>) -> Result<()> {
         let group_key = ctx.accounts.group.key();
         let group = &mut ctx.accounts.group;
@@ -63,7 +45,7 @@ pub mod solana_rosca {
         }
 
         participant.contributions[group.current_week as usize] += amount;
-        // Note: Token transfer logic omitted for simplicity (see enhancements)
+        // Not doing token stuff yet, will add later
         Ok(())
     }
 
@@ -85,11 +67,9 @@ pub mod solana_rosca {
             return Err(ErrorCode::CycleComplete.into());
         }
 
-        // For simplicity, pick the first eligible participant
         let winner_index = eligible[0];
         group.pot_received[winner_index] = true;
         group.current_week += 1;
-        // Note: Pot transfer logic omitted (see enhancements)
         Ok(())
     }
 }

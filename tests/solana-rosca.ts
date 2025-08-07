@@ -1,4 +1,4 @@
-import * as anchor from "@coral-xyz/anchor";
+/* import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { SolanaRosca } from "../target/types/solana_rosca";
 
@@ -56,10 +56,141 @@ describe("solana-rosca", () => {
       })
       .signers([participant, user])
       .rpc();
-
+ 
     const groupAccount = await program.account.group.fetch(group.publicKey);
     assert.equal(groupAccount.participants.length, 1);
   });
 
   // Add more tests for contribute and distribute_pot...
+}); 
+
+import * as anchor from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import { SolanaRosca } from "../target/types/solana_rosca";
+import assert from "assert";
+
+describe("solana-rosca", () => {
+  const provider = anchor.AnchorProvider.env();
+  anchor.setProvider(provider);
+  const program = anchor.workspace.SolanaRosca as Program<SolanaRosca>;
+
+  it("Creates a group", async () => {
+    const group = anchor.web3.Keypair.generate();
+    await program.methods
+      .createGroup(new anchor.BN(1000), 5)
+      .accounts({
+        group: group.publicKey,
+        admin: provider.wallet.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([group])
+      .rpc();
+
+    const groupAccount = await program.account.group.fetch(group.publicKey);
+    assert.equal(groupAccount.maxParticipants, 5);
+  });
+
+  it("Joins a group", async () => {
+    const group = anchor.web3.Keypair.generate();
+    await program.methods
+      .createGroup(new anchor.BN(1000), 5)
+      .accounts({
+        group: group.publicKey,
+        admin: provider.wallet.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([group])
+      .rpc();
+
+    const participant = anchor.web3.Keypair.generate();
+    const user = anchor.web3.Keypair.generate();
+
+    // Request airdrop to fund the user account
+    const rentExemption = 1948800; // As per the error log
+    const airdropSignature = await provider.connection.requestAirdrop(
+      user.publicKey,
+      rentExemption * 2 // Double the amount to be safe
+    );
+    await provider.connection.confirmTransaction(airdropSignature);
+
+    // Join the group
+    await program.methods
+      .joinGroup()
+      .accounts({
+        group: group.publicKey,
+        participant: participant.publicKey,
+        user: user.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      })
+      .signers([participant, user])
+      .rpc();
+
+    const groupAccount = await program.account.group.fetch(group.publicKey);
+    assert.equal(groupAccount.participants.length, 1);
+  });
+}); */
+
+import * as anchor from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import { SolanaRosca } from "../target/types/solana_rosca";
+import assert from "assert";
+
+describe("solana-rosca", () => {
+  // Setting up the provider and program for testing
+  const provider = anchor.AnchorProvider.env();
+  anchor.setProvider(provider);
+  const program = anchor.workspace.SolanaRosca as Program<SolanaRosca>;
+
+  it("Creates a group", async () => {
+    const group = anchor.web3.Keypair.generate();
+    await program.methods
+      .createGroup(new anchor.BN(1000), 5) // Making a group with 1000 lamports and 5 max people
+      .accounts({
+        group: group.publicKey,
+        admin: provider.wallet.publicKey,
+      })
+      .signers([group])
+      .rpc();
+
+    // Checking if the group was created right
+    const groupAccount = await program.account.group.fetch(group.publicKey);
+    assert.equal(groupAccount.maxParticipants, 5);
+  });
+
+  it("Joins a group", async () => {
+    // Creating a new group first
+    const group = anchor.web3.Keypair.generate();
+    await program.methods
+      .createGroup(new anchor.BN(1000), 5)
+      .accounts({
+        group: group.publicKey,
+        admin: provider.wallet.publicKey,
+      })
+      .signers([group])
+      .rpc();
+
+    const participant = anchor.web3.Keypair.generate();
+    const user = anchor.web3.Keypair.generate();
+
+    // Giving the user some SOL to cover costs
+    const airdropSignature = await provider.connection.requestAirdrop(
+      user.publicKey,
+      2 * anchor.web3.LAMPORTS_PER_SOL
+    );
+    await provider.connection.confirmTransaction(airdropSignature);
+
+    await program.methods
+      .joinGroup()
+      .accounts({
+        group: group.publicKey,
+        participant: participant.publicKey,
+        user: user.publicKey,
+      })
+      .signers([participant, user])
+      .rpc();
+
+    // Making sure one person joined the group
+    const groupAccount = await program.account.group.fetch(group.publicKey);
+    assert.equal(groupAccount.participants.length, 1);
+  });
 });

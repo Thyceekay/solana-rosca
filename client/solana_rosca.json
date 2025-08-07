@@ -1,0 +1,252 @@
+{
+  "address": "GMhTVRALQqen8Mth7U8KJfv3Kjw41zBxRANAjL35MWfY",
+  "metadata": {
+    "name": "solana_rosca",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "contribute",
+      "discriminator": [
+        82,
+        33,
+        68,
+        131,
+        32,
+        0,
+        205,
+        95
+      ],
+      "accounts": [
+        {
+          "name": "group",
+          "writable": true
+        },
+        {
+          "name": "participant",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "create_group",
+      "discriminator": [
+        79,
+        60,
+        158,
+        134,
+        61,
+        199,
+        56,
+        248
+      ],
+      "accounts": [
+        {
+          "name": "group",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "contribution_amount",
+          "type": "u64"
+        },
+        {
+          "name": "max_participants",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "distribute_pot",
+      "discriminator": [
+        174,
+        253,
+        41,
+        240,
+        254,
+        75,
+        38,
+        160
+      ],
+      "accounts": [
+        {
+          "name": "group",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "join_group",
+      "discriminator": [
+        121,
+        56,
+        199,
+        19,
+        250,
+        70,
+        44,
+        184
+      ],
+      "accounts": [
+        {
+          "name": "group",
+          "writable": true
+        },
+        {
+          "name": "participant",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Group",
+      "discriminator": [
+        209,
+        249,
+        208,
+        63,
+        182,
+        89,
+        186,
+        254
+      ]
+    },
+    {
+      "name": "Participant",
+      "discriminator": [
+        32,
+        142,
+        108,
+        79,
+        247,
+        179,
+        54,
+        6
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GroupFull",
+      "msg": "Group is already full"
+    },
+    {
+      "code": 6001,
+      "name": "IncorrectAmount",
+      "msg": "Incorrect contribution amount"
+    },
+    {
+      "code": 6002,
+      "name": "Unauthorized",
+      "msg": "Unauthorized action"
+    },
+    {
+      "code": 6003,
+      "name": "CycleComplete",
+      "msg": "ROSCA cycle is complete"
+    }
+  ],
+  "types": [
+    {
+      "name": "Group",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "contribution_amount",
+            "type": "u64"
+          },
+          {
+            "name": "max_participants",
+            "type": "u8"
+          },
+          {
+            "name": "participants",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "current_week",
+            "type": "u8"
+          },
+          {
+            "name": "pot_received",
+            "type": {
+              "vec": "bool"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Participant",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "group",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "contributions",
+            "type": {
+              "vec": "u64"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

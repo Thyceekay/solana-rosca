@@ -11,7 +11,7 @@ This project lets a group of people (max 10) save money together on Solana. One 
 - **`programs/solana-rosca/src/lib.rs`**: The Rust code that runs on Solana. It has functions to create a group, join it, add money, and pick a winner each week.
 - **`tests/solana-rosca.ts`**: Tests to make sure the group creation and joining work right.
 - **`client/index.ts`**: A little TypeScript app to create a group on my local Solana validator.
-- **`client/solana_rosca.json`**: The IDL file tells the client how to talk to the program.
+- **`client/solana_rosca.json`**: The IDL file tells the client how to talk to the program.      
 
 ## How to Set It Up
 I’m running this on WSL with a local Solana validator, so here’s how I got it working. You’ll need some tools first!

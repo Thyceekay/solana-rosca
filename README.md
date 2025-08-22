@@ -1,6 +1,6 @@
 # Solana ROSCA Project
 
-So you don't get lost.. try reading the manual for once.
+So you don't get lost.. try reading the manual for once.  
 
 It’s a Rotating Savings and Credit Association (ROSCA) built on the Solana blockchain using Rust and TypeScript. Basically, it’s a way for up to 10 people to put in money each week, and one person gets the whole pot each time until everyone gets a turn. Bear with me, it’s not perfect yet!
 
